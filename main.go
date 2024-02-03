@@ -41,6 +41,18 @@ func main() {
 
 	fmt.Println("Connected!")
 
+	albId, err := addAlbum(Album{
+		Title:  "Sons Et Lumiere",
+		Artist: "The Mars Volta",
+		Price:  49.80,
+	})
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Printf("ID of added album: %v\n", albId)
+
 	albums, err := albumsByArtist("John Coltrane")
 
 	if err != nil {
@@ -91,4 +103,19 @@ func albumByID(id int64) (Album, error) {
 	}
 
 	return alb, nil
+}
+
+func addAlbum(alb Album) (int64, error) {
+	result, err := db.Exec("INSERT INTO album (title, artist, price) VALUES (?, ?, ?)", alb.Title, alb.Artist, alb.Price)
+	if err != nil {
+		return 0, fmt.Errorf("addAlbum: %v", err)
+	}
+
+	id, err := result.LastInsertId()
+
+	if err != nil {
+		return 0, fmt.Errorf("addAlbum %v", err)
+	}
+
+	return id, nil
 }
