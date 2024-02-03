@@ -1,5 +1,21 @@
 package main
 
+import "fmt"
+
+func main() {
+	ints := map[string]int64{
+		"first":  34,
+		"second": 12,
+	}
+
+	floats := map[string]float64{
+		"first":  35.90,
+		"second": 26.99,
+	}
+
+	fmt.Printf("Non generic Sums: %v and %v\n", SumInts(ints), SumFloats(floats))
+}
+
 func SumInts(m map[string]int64) int64 {
 	var s int64
 
